@@ -1,0 +1,21 @@
+{
+  "name": "Test extension",
+  "description": "This is test extension",
+  "version": "1.0",
+  "manifest_version": 3,
+
+  "action": {
+    "default_icon": "static/images/logo-48.png",
+    "default_popup": "index.html"
+  },
+
+  "icons": {
+    "16": "static/images/logo-16.png",
+    "32": "static/images/logo-32.png",
+    "48": "static/images/logo-48.png",
+    "128": "static/images/logo-128.png"
+  },
+  "background.service_worker": {
+    "service_worker": ["background.js"]
+  }
+}
