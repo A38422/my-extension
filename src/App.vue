@@ -1,28 +1,40 @@
 <template>
   <div id="app">
-    <label for="url">Link<input type="text" v-model="newLink" id="url"></label><br>
-    <label for="Image"><input type="file" accept="image/*"
-           @change="uploadImage($event)" id="Image"></label><br>
-    <button v-if="!edit" @click="links.push({ content: newLink, image: newImage});
-            setVal();" id="add">Add</button>
-    <button v-else @click="updateLink()" id="update">Update</button>
-    <div v-for="(link, index) in links" :key="index">
-      <img :src="link.image" class="uploading-image" alt="" width="40px"
-           height="40px" />
-      <a :href="link.content" target="_blank">{{ link.content }}</a>
-      <button @click="editLink(index, link)" id="edit">Edit</button>
-      <button @click="removeVal(index)" id="delete">Delete</button>
-    </div>
+    <img src="assets/logo.png" alt="logo" width="70px" height="80px" />
+    <h1>Url List</h1>
+    <label for="url"><input type="text" placeholder="Link" v-model="newLink" id="url"></label><br>
+    <label for="image"><input type="text" placeholder="Image" v-model="newImage" id="image">
+    </label><br>
+    <b-button variant="success" v-if="!edit" @click="pushLink(); setVal();" id="add">Add</b-button>
+    <b-button variant="warning" v-else @click="updateLink()" id="update">Update</b-button>
+    <table>
+      <tr style="text-align: center">
+        <th>Avatar</th>
+        <th>Url</th>
+        <th>Actions</th>
+      </tr>
+      <tr v-for="(link, index) in links" :key="index">
+        <td>
+          <img :src="link.image" class="uploading-image" alt="" width="40px" height="40px" />
+        </td>
+        <td>
+          <a :href="link.content" target="_blank">{{ link.content }}</a>
+        </td>
+        <td>
+          <b-button variant="primary" @click="editLink(index, link)" id="edit">Edit</b-button>
+          <b-button variant="danger" @click="removeVal(index)" id="delete">Delete</b-button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'imageUpload',
   data() {
     return {
-      newImage: null,
+      newImage: '',
       newLink: '',
       links: [],
       edit: false,
@@ -33,9 +45,15 @@ export default {
     this.getVal();
   },
   methods: {
+    pushLink() {
+      if (this.newImage && this.newLink) {
+        this.links.push({ content: this.newLink, image: this.newImage });
+      }
+    },
     setVal() {
       localStorage.setItem('links', JSON.stringify(this.links));
       this.newLink = '';
+      this.newImage = '';
     },
     getVal() {
       if (localStorage.getItem('links')) {
@@ -49,20 +67,8 @@ export default {
         this.edit = false;
       }
     },
-    uploadImage(e) {
-      const image = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (event) => {
-        this.newImage = event.target.result;
-      };
-    },
     editLink(index, link) {
-      if (this.newLink) {
-        this.newLink = link.content;
-      } else {
-        this.newLink = '';
-      }
+      this.newLink = link.content;
       this.newImage = link.image;
       this.selectedIndex = index;
       this.edit = true;
@@ -74,61 +80,67 @@ export default {
       });
       this.edit = false;
       localStorage.setItem('links', JSON.stringify(this.links));
+      this.newLink = '';
+      this.newImage = '';
     },
   },
 };
 </script>
 
 <style lang="scss">
-label {
-  font-size: 14px;
-  margin-top: 10px;
-  margin-left: 20px;
+input {
+  border-radius: 0.25rem;
+  min-height: auto;
+  padding: 0.33em 0.75em;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  display: block;
+  width: 100%;
+  border-color: #4f4f4f;
+  border: 0.5px solid;
 }
 
-button, input {
-  overflow: visible;
-  margin-left: 5px;
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  margin-top: 15px;
 }
 
-#add {
-  background-color: green;
-  border: none;
-  outline: none;
-  color: white;
-  text-align: center;
-  margin-left: 25px;
+tr, td, th {
+  border-bottom: 0.5px solid;
+  border-color: inherit;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-#update {
-  background-color: violet;
-  border: none;
-  outline: none;
-  color: white;
-  margin-left: 25px;
-}
-
-img {
-  margin: 5px 5px 5px 5px;
+* {
+  margin: 0;
+  padding: 0;
+  background: pink;
 }
 
 #edit {
-  background-color: blue;
-  color: white;
-  margin-left: 5px;
-  border: none;
-  outline: none;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-#delete {
-  background-color: red;
-  color: white;
-  border: none;
-  outline: none;
+img {
+  margin-right: 10px;
+}
+
+body {
+  background: pink;
 }
 
 #app {
+  margin-top: 50px;
+  text-align: center;
   margin-left: 10px;
-  min-width: 550px;
+  min-width: 500px;
+  min-height: 700px;
+  font-family: inherit;
 }
 </style>
