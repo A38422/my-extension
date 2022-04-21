@@ -17,5 +17,9 @@
   },
   "background.service_worker": {
     "service_worker": ["background.js"]
+  },
+  "options_ui": {
+    "page": "index.html",
+    "open_in_tab": true
   }
 }
