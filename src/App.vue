@@ -6,7 +6,8 @@
           <b-icon icon="link"></b-icon>
         </b-input-group-prepend>
         <b-form-input type="url" placeholder="https://example.com" v-model="newLink"
-                      required pattern="http://.*"></b-form-input>
+                      required pattern="http://.*">
+        </b-form-input>
       </b-input-group>
       <b-input-group size="lg" class="mb-2" id="image">
         <b-input-group-prepend is-text>
@@ -16,15 +17,6 @@
                       v-model="newImage">
         </b-form-input>
       </b-input-group>
-      <b-button variant="success" v-if="!edit" @click="pushLink(); setVal();" id="add"
-                class="mb-2"
-                v-b-tooltip="'Add'">
-        <b-icon icon="plus-lg"></b-icon>Tạo Mới
-      </b-button>
-      <b-button variant="warning" v-else @click="updateLink()" id="update" class="mb-2"
-                v-b-tooltip="'Update'">
-        <b-icon icon="arrow-repeat"></b-icon>Update
-      </b-button>
       <b-input-group size="lg" class="mb-2" id="name">
         <b-input-group-prepend is-text>
           <b-icon icon="person"></b-icon>
@@ -33,13 +25,22 @@
                       v-model="newName">
         </b-form-input>
       </b-input-group>
+      <b-button variant="success" v-if="!edit" @click="pushLink(); setVal();" id="add"
+                class="mb-2"
+                v-b-tooltip="'Add'">
+        <b-icon icon="plus-lg" style="margin-right: 5px;"></b-icon>Tạo Mới
+      </b-button>
+      <b-button variant="warning" v-else @click="updateLink()" id="update" class="mb-2"
+                v-b-tooltip="'Update'">
+        <b-icon icon="arrow-repeat" style="margin-right: 5px;"></b-icon>Cập nhật
+      </b-button>
     </div>
     <div id="middle">
 
     </div>
     <div id="bottom">
       <div v-for="(link, index) in links" :key="index" class="content">
-        <img :src="link.image" class="uploading-image" alt="" width="80px" height="80px" />
+        <img :src="link.image" class="uploading-image" alt="" width="60px" height="60px" />
         <div id="url">
           <h4 class="name">{{ link.name }}</h4>
           <a :href="link.content" target="_blank">{{ link.content }}</a>
@@ -133,12 +134,12 @@ export default {
   flex-wrap: wrap;
   align-content: space-around;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: center;
 }
 
 #name {
-  width: 40%;
-  font-size: 1.3rem;
+  width: 25%;
+  margin-right: 140px;
 }
 
 #middle {
@@ -148,14 +149,14 @@ export default {
 }
 
 #link {
-  margin-right: 80px;
-  width: 40%;
+  margin-right: 50px;
+  width: 25%;
   font-size: 1.3rem;
 }
 
 #image {
-  width: 40%;
-  margin-right: 110px;
+  width: 25%;
+  margin-right: 50px;
 }
 
 .content {
@@ -220,9 +221,10 @@ b-form-input {
   background: white;
 }
 
-//#add, #update {
-//  margin-right: 50px;
-//}
+h4 {
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
 
 #app {
   margin-top: 50px;
